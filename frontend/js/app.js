@@ -55,7 +55,7 @@ class AccessMonitoringApp {
 
     async loadAccessHistory() {
         try {
-            const response = await fetch(`${this.apiBaseUrl}/access-history`);
+            const response = await fetch(`${this.apiBaseUrl}/sessions/all`);
             const data = await response.json();
 
             this.renderAccessHistory(data);
@@ -66,25 +66,34 @@ class AccessMonitoringApp {
         }
     }
 
-    renderAccessHistory(histories) {
+    renderAccessHistory(sessions) {
         const tbody = document.getElementById('access-history-body');
 
-        if (histories.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="3" class="no-data">暂无访问记录</td></tr>';
+        if (sessions.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" class="no-data">暂无访问记录</td></tr>';
             return;
         }
 
-        tbody.innerHTML = histories.map(history => `
-            <tr>
-                <td>${this.escapeHtml(history.userId)}</td>
-                <td>${history.formattedTime}</td>
-                <td>
-                    <button class="delete-btn" onclick="app.showDeleteModal('${this.escapeHtml(history.userId)}')">
-                        删除
-                    </button>
-                </td>
-            </tr>
-        `).join('');
+        tbody.innerHTML = sessions.map(session => {
+            const loginTime = new Date(session.loginTime);
+            const logoutTime = session.logoutTime ? new Date(session.logoutTime) : null;
+
+            const formattedLoginTime = loginTime.toLocaleString('zh-CN');
+            const formattedLogoutTime = logoutTime ? logoutTime.toLocaleString('zh-CN') : '-';
+
+            return `
+                <tr>
+                    <td>${this.escapeHtml(session.userId)}</td>
+                    <td>${formattedLoginTime}</td>
+                    <td>${formattedLogoutTime}</td>
+                    <td>
+                        <button class="delete-btn" onclick="app.showDeleteModal('${this.escapeHtml(session.userId)}')">
+                            删除用户
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
     }
 
     async addUser() {

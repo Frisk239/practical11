@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-title">访问监控系统</h1>
+            <div class="nav-links">
+                <a href="user-portal.html" class="nav-link">用户门户</a>
+                <a href="index.html" class="nav-link active">管理后台</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <header>
             <h1>访问监控系统</h1>
@@ -37,13 +47,14 @@
                         <thead>
                             <tr>
                                 <th>用户ID</th>
-                                <th>最后登录时间</th>
+                                <th>访问时间</th>
+                                <th>离开时间</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <tbody id="access-history-body">
                             <tr>
-                                <td colspan="3" class="no-data">暂无访问记录</td>
+                                <td colspan="4" class="no-data">暂无访问记录</td>
                             </tr>
                         </tbody>
                     </table>

@@ -3,4 +3,9 @@ com\example\practical11\Practical11Application.class
 com\example\practical11\DynamicArray.class
 com\example\practical11\AccessHistory.class
 com\example\practical11\UserActivity.class
+com\example\practical11\UserSessionEntity.class
 com\example\practical11\MonitoringSystem.class
+com\example\practical11\UserSessionEntity$SessionStatus.class
+com\example\practical11\UserSessionService.class
+com\example\practical11\UserSessionRepository.class
+com\example\practical11\UserSessionService$SessionStats.class

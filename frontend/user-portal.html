@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户访问门户</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-title">访问监控系统</h1>
+            <div class="nav-links">
+                <a href="user-portal.html" class="nav-link active">用户门户</a>
+                <a href="index.html" class="nav-link">管理后台</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>用户访问门户</h1>
+            <div id="user-status" class="user-status">
+                <span id="current-user">未登录</span>
+                <span id="online-status" class="status-offline">离线</span>
+            </div>
+        </header>
+
+        <main>
+            <section class="login-section">
+                <h2>用户登录</h2>
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="username">用户名:</label>
+                        <input type="text" id="username" name="username" required
+                               placeholder="输入用户名" maxlength="50">
+                    </div>
+                    <button type="submit" class="btn btn-primary">登录</button>
+                </form>
+                <div id="login-message" class="message"></div>
+            </section>
+
+            <section class="access-section">
+                <h2>访问控制</h2>
+                <div class="access-controls">
+                    <button id="access-btn" class="btn btn-success" disabled>访问系统</button>
+                    <button id="leave-btn" class="btn btn-warning" disabled>离开系统</button>
+                </div>
+                <div id="access-message" class="message"></div>
+            </section>
+
+            <section class="user-history-section">
+                <h2>我的访问历史</h2>
+                <div class="table-container">
+                    <table id="user-history-table" class="access-history-table">
+                        <thead>
+                            <tr>
+                                <th>访问时间</th>
+                                <th>离开时间</th>
+                                <th>访问时长</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-history-body">
+                            <tr>
+                                <td colspan="3" class="no-data">暂无访问记录</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 用户访问门户 - 访问监控系统</p>
+        </footer>
+    </div>
+
+    <script src="js/user-portal.js"></script>
+</body>
+</html>
