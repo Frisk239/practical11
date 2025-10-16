@@ -68,13 +68,20 @@ class AccessMonitoringApp {
     renderRegisteredUsers(users) {
         // 显示注册用户数量和列表
         const userListDiv = document.getElementById('registered-users-list');
-        if (userListDiv && users.length > 0) {
-            userListDiv.innerHTML = `
-                <h3>已注册用户 (${users.length})</h3>
-                <ul>
-                    ${users.map(user => `<li>${this.escapeHtml(user.userId)}</li>`).join('')}
-                </ul>
-            `;
+        if (userListDiv) {
+            if (users.length > 0) {
+                userListDiv.innerHTML = `
+                    <h3>已注册用户 (${users.length})</h3>
+                    <ul>
+                        ${users.map(user => `<li><strong>${this.escapeHtml(user.name)}</strong> (${this.escapeHtml(user.userId)}) - ${this.escapeHtml(user.email)} - ${this.escapeHtml(user.department)}</li>`).join('')}
+                    </ul>
+                `;
+            } else {
+                userListDiv.innerHTML = `
+                    <h3>已注册用户 (0)</h3>
+                    <p>暂无注册用户</p>
+                `;
+            }
         }
     }
 
@@ -123,10 +130,39 @@ class AccessMonitoringApp {
 
     async addUser() {
         const userIdInput = document.getElementById('user-id');
+        const nameInput = document.getElementById('user-name');
+        const emailInput = document.getElementById('user-email');
+        const departmentInput = document.getElementById('user-department');
+
         const userId = userIdInput.value.trim();
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const department = departmentInput.value.trim();
 
         if (!userId) {
             this.showMessage('请输入用户ID', 'error');
+            return;
+        }
+
+        if (!name) {
+            this.showMessage('请输入用户姓名', 'error');
+            return;
+        }
+
+        if (!email) {
+            this.showMessage('请输入邮箱地址', 'error');
+            return;
+        }
+
+        if (!department) {
+            this.showMessage('请输入所属部门', 'error');
+            return;
+        }
+
+        // Email validation on frontend
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            this.showMessage('邮箱格式不正确', 'error');
             return;
         }
 
@@ -136,14 +172,23 @@ class AccessMonitoringApp {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userId: userId })
+                body: JSON.stringify({
+                    userId: userId,
+                    name: name,
+                    email: email,
+                    department: department
+                })
             });
 
             const data = await response.json();
 
             if (data.success) {
                 this.showMessage(data.message, 'success');
+                // 清空表单
                 userIdInput.value = '';
+                nameInput.value = '';
+                emailInput.value = '';
+                departmentInput.value = '';
                 // 刷新所有相关数据
                 this.loadRegisteredUsers();
                 this.loadAccessHistory();

@@ -33,6 +33,9 @@ public class AccessHistoryController {
             AccessHistory history = histories.get(i);
             Map<String, Object> historyMap = new HashMap<>();
             historyMap.put("userId", history.getUserId());
+            historyMap.put("name", history.getName());
+            historyMap.put("email", history.getEmail());
+            historyMap.put("department", history.getDepartment());
             historyMap.put("lastLoginTime", history.getLastLoginTimeISO());
             historyMap.put("formattedTime", history.getLastLoginTime().format(
                 java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
@@ -45,22 +48,66 @@ public class AccessHistoryController {
     @PostMapping("/access-history")
     public ResponseEntity<Map<String, Object>> addUser(@RequestBody Map<String, String> request) {
         String userId = request.get("userId");
+        String name = request.get("name");
+        String email = request.get("email");
+        String department = request.get("department");
+
         if (userId == null || userId.trim().isEmpty()) {
             Map<String, Object> error = new HashMap<>();
             error.put("success", false);
-            error.put("message", "User ID cannot be empty");
+            error.put("message", "用户ID不能为空");
             return ResponseEntity.badRequest().body(error);
         }
 
-        boolean isNewUser = monitoringSystem.addUser(userId.trim());
-        AccessHistory history = monitoringSystem.getUserHistory(userId.trim());
+        if (name == null || name.trim().isEmpty()) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", "姓名不能为空");
+            return ResponseEntity.badRequest().body(error);
+        }
+
+        if (email == null || email.trim().isEmpty()) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", "邮箱不能为空");
+            return ResponseEntity.badRequest().body(error);
+        }
+
+        // Email validation
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        if (!email.trim().matches(emailRegex)) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", "邮箱格式不正确");
+            return ResponseEntity.badRequest().body(error);
+        }
+
+        if (department == null || department.trim().isEmpty()) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", "部门不能为空");
+            return ResponseEntity.badRequest().body(error);
+        }
+
+        // Check if user already exists
+        if (monitoringSystem.getUserHistory(userId.trim()) != null) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", "用户ID已存在");
+            return ResponseEntity.badRequest().body(error);
+        }
+
+        AccessHistory newUser = new AccessHistory(userId.trim(), name.trim(), email.trim(), department.trim());
+        boolean added = monitoringSystem.addUser(newUser);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        response.put("isNewUser", isNewUser);
-        response.put("userId", history.getUserId());
-        response.put("lastLoginTime", history.getLastLoginTimeISO());
-        response.put("message", isNewUser ? "User added successfully" : "User login time updated");
+        response.put("success", added);
+        response.put("userId", newUser.getUserId());
+        response.put("name", newUser.getName());
+        response.put("email", newUser.getEmail());
+        response.put("department", newUser.getDepartment());
+        response.put("lastLoginTime", newUser.getLastLoginTimeISO());
+        response.put("message", added ? "用户添加成功" : "用户添加失败");
 
         return ResponseEntity.ok(response);
     }

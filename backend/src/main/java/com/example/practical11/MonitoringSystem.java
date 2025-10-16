@@ -36,7 +36,7 @@ public class MonitoringSystem {
         for (int i = 0; i < currentSize; i++) {
             if (accessList.get(i).getUserId().equals(userId)) {
                 // Update last login time for existing user
-                accessList.get(i).updateLastLoginTime();
+                accessList.get(i).setLastLoginTime(java.time.LocalDateTime.now());
                 sortAccessList();
                 return false; // User already exists, just updated time
             }
@@ -45,6 +45,24 @@ public class MonitoringSystem {
         // Add new user
         AccessHistory newHistory = new AccessHistory(userId);
         accessList.add(newHistory);
+        currentSize++;
+        sortAccessList();
+        return true; // New user added
+    }
+
+    /**
+     * Adds a user with full information to the access list
+     */
+    public boolean addUser(AccessHistory user) {
+        // Check if user already exists
+        for (int i = 0; i < currentSize; i++) {
+            if (accessList.get(i).getUserId().equals(user.getUserId())) {
+                return false; // User already exists
+            }
+        }
+
+        // Add new user
+        accessList.add(user);
         currentSize++;
         sortAccessList();
         return true; // New user added
