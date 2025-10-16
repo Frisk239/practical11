@@ -135,7 +135,7 @@ public class AccessHistoryController {
         Map<String, Object> info = new HashMap<>();
         info.put("systemName", monitoringSystem.getSystemName());
         info.put("currentUsers", monitoringSystem.getCurrentSize());
-        info.put("capacity", 5); // Default capacity
+        info.put("capacity", monitoringSystem.getCapacity()); // Dynamic capacity from MonitoringSystem
         info.put("totalSessions", stats.getTotalSessions());
         info.put("activeSessions", stats.getActiveSessions());
         info.put("uniqueUsers", stats.getUniqueUsers());
