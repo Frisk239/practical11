@@ -43,8 +43,8 @@ class UserPortalApp {
         }
 
         try {
-            // 首先尝试添加用户到系统（如果不存在）
-            const response = await fetch(`${this.apiBaseUrl}/access-history`, {
+            // 验证用户是否已注册（通过尝试登录来验证）
+            const response = await fetch(`${this.apiBaseUrl}/sessions/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ class UserPortalApp {
 
             if (data.success) {
                 this.currentUser = username;
-                this.isOnline = false;
+                this.isOnline = true; // 登录成功后自动设为在线状态
                 this.updateUI();
                 this.showMessage('登录成功！现在可以访问系统了。', 'success', 'login');
                 usernameInput.value = '';
@@ -73,6 +73,11 @@ class UserPortalApp {
     async accessSystem() {
         if (!this.currentUser) {
             this.showMessage('请先登录', 'error', 'access');
+            return;
+        }
+
+        if (this.isOnline) {
+            this.showMessage('您已经在线了', 'info', 'access');
             return;
         }
 

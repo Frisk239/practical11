@@ -110,8 +110,18 @@ public class AccessHistoryController {
             return ResponseEntity.badRequest().body(error);
         }
 
+        userId = userId.trim();
+
+        // Check if user exists in the monitoring system (registered users only)
+        if (monitoringSystem.getUserHistory(userId) == null) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", "请联系管理员进行注册");
+            return ResponseEntity.badRequest().body(error);
+        }
+
         try {
-            UserSessionEntity session = userSessionService.startSession(userId.trim());
+            UserSessionEntity session = userSessionService.startSession(userId);
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("userId", session.getUserId());

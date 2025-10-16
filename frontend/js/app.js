@@ -8,6 +8,7 @@ class AccessMonitoringApp {
     init() {
         this.bindEvents();
         this.loadSystemInfo();
+        this.loadRegisteredUsers();
         this.loadAccessHistory();
     }
 
@@ -50,6 +51,30 @@ class AccessMonitoringApp {
         } catch (error) {
             console.error('加载系统信息失败:', error);
             this.showMessage('加载系统信息失败', 'error');
+        }
+    }
+
+    async loadRegisteredUsers() {
+        try {
+            const response = await fetch(`${this.apiBaseUrl}/access-history`);
+            const users = await response.json();
+
+            this.renderRegisteredUsers(users);
+        } catch (error) {
+            console.error('加载注册用户失败:', error);
+        }
+    }
+
+    renderRegisteredUsers(users) {
+        // 显示注册用户数量和列表
+        const userListDiv = document.getElementById('registered-users-list');
+        if (userListDiv && users.length > 0) {
+            userListDiv.innerHTML = `
+                <h3>已注册用户 (${users.length})</h3>
+                <ul>
+                    ${users.map(user => `<li>${this.escapeHtml(user.userId)}</li>`).join('')}
+                </ul>
+            `;
         }
     }
 
@@ -119,6 +144,8 @@ class AccessMonitoringApp {
             if (data.success) {
                 this.showMessage(data.message, 'success');
                 userIdInput.value = '';
+                // 刷新所有相关数据
+                this.loadRegisteredUsers();
                 this.loadAccessHistory();
             } else {
                 this.showMessage(data.message, 'error');
@@ -148,6 +175,8 @@ class AccessMonitoringApp {
 
             if (data.success) {
                 this.showMessage(data.message, 'success');
+                // 刷新所有相关数据
+                this.loadRegisteredUsers();
                 this.loadAccessHistory();
             } else {
                 this.showMessage(data.message, 'error');
