@@ -3,54 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>访问监控系统</title>
+    <title>访问监控系统 (Access Monitoring System)</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <h1 class="nav-title">访问监控系统</h1>
+            <h1 class="nav-title">访问监控系统 (Access Monitoring System)</h1>
             <div class="nav-links">
-                <a href="user-portal.html" class="nav-link">用户门户</a>
-                <a href="index.html" class="nav-link active">管理后台</a>
+                <a href="user-portal.html" class="nav-link">用户门户 (User Portal)</a>
+                <a href="index.html" class="nav-link active">管理后台 (Admin Panel)</a>
             </div>
         </div>
     </nav>
 
     <div class="container">
         <header>
-            <h1>访问监控系统</h1>
+            <h1>访问监控系统 (Access Monitoring System)</h1>
             <div id="system-info" class="system-info">
-                <span id="system-name">系统加载中...</span>
-                <span id="user-count">用户: 0/5</span>
+                <span id="system-name">系统加载中... (Loading...)</span>
+                <span id="user-count">用户: 0/5 (Users: 0/5)</span>
             </div>
         </header>
 
         <main>
             <section class="add-user-section">
-                <h2>添加用户</h2>
+                <h2>添加用户 (Add User)</h2>
                 <form id="add-user-form" class="add-user-form">
                     <div class="form-group">
-                        <label for="user-id">用户ID:</label>
+                        <label for="user-id">用户ID (User ID):</label>
                         <input type="text" id="user-id" name="userId" required
-                               placeholder="输入用户ID" maxlength="50">
+                               placeholder="输入用户ID (Enter User ID)" maxlength="50">
                     </div>
                     <div class="form-group">
-                        <label for="user-name">姓名:</label>
+                        <label for="user-name">姓名 (Name):</label>
                         <input type="text" id="user-name" name="name" required
-                               placeholder="输入用户姓名" maxlength="100">
+                               placeholder="输入用户姓名 (Enter User Name)" maxlength="100">
                     </div>
                     <div class="form-group">
-                        <label for="user-email">邮箱:</label>
+                        <label for="user-email">邮箱 (Email):</label>
                         <input type="email" id="user-email" name="email" required
-                               placeholder="输入邮箱地址" maxlength="100">
+                               placeholder="输入邮箱地址 (Enter Email Address)" maxlength="100">
                     </div>
                     <div class="form-group">
-                        <label for="user-department">部门:</label>
+                        <label for="user-department">部门 (Department):</label>
                         <input type="text" id="user-department" name="department" required
-                               placeholder="输入所属部门" maxlength="100">
+                               placeholder="输入所属部门 (Enter Department)" maxlength="100">
                     </div>
-                    <button type="submit" class="btn btn-primary">添加用户</button>
+                    <button type="submit" class="btn btn-primary">添加用户 (Add User)</button>
                 </form>
                 <div id="add-user-message" class="message"></div>
 
@@ -61,41 +61,41 @@
             </section>
 
             <section class="access-history-section">
-                <h2>访问历史</h2>
+                <h2>访问历史 (Access History)</h2>
                 <div class="table-container">
                     <table id="access-history-table" class="access-history-table">
                         <thead>
                             <tr>
-                                <th>用户ID</th>
-                                <th>访问时间</th>
-                                <th>离开时间</th>
-                                <th>操作</th>
+                                <th>用户ID (User ID)</th>
+                                <th>访问时间 (Login Time)</th>
+                                <th>离开时间 (Logout Time)</th>
+                                <th>操作 (Actions)</th>
                             </tr>
                         </thead>
                         <tbody id="access-history-body">
                             <tr>
-                                <td colspan="4" class="no-data">暂无访问记录</td>
+                                <td colspan="4" class="no-data">暂无访问记录 (No access records)</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <button id="refresh-btn" class="btn btn-secondary">刷新列表</button>
+                <button id="refresh-btn" class="btn btn-secondary">刷新列表 (Refresh List)</button>
             </section>
         </main>
 
         <footer>
-            <p>&copy; 2024 访问监控系统 - 基于数组和指针实现</p>
+            <p>&copy; 2024 访问监控系统 (Access Monitoring System) - 基于数组和指针实现 (Based on Array and Pointer Implementation)</p>
         </footer>
     </div>
 
     <!-- 删除确认对话框 -->
     <div id="delete-modal" class="modal">
         <div class="modal-content">
-            <h3>确认删除</h3>
-            <p>确定要删除用户 <span id="delete-user-id"></span> 吗？</p>
+            <h3>确认删除 (Confirm Deletion)</h3>
+            <p>确定要删除用户 <span id="delete-user-id"></span> 吗？ (Are you sure you want to delete user <span id="delete-user-id"></span>?)</p>
             <div class="modal-buttons">
-                <button id="confirm-delete" class="btn btn-danger">确认删除</button>
-                <button id="cancel-delete" class="btn btn-secondary">取消</button>
+                <button id="confirm-delete" class="btn btn-danger">确认删除 (Confirm Delete)</button>
+                <button id="cancel-delete" class="btn btn-secondary">取消 (Cancel)</button>
             </div>
         </div>
     </div>

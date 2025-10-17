@@ -49,8 +49,8 @@ class AccessMonitoringApp {
             document.getElementById('system-name').textContent = data.systemName;
             document.getElementById('user-count').textContent = `用户: ${data.currentUsers}/${data.capacity}`;
         } catch (error) {
-            console.error('加载系统信息失败:', error);
-            this.showMessage('加载系统信息失败', 'error');
+            console.error('加载系统信息失败 (Failed to load system info):', error);
+            this.showMessage('加载系统信息失败 (Failed to load system info)', 'error');
         }
     }
 
@@ -61,7 +61,7 @@ class AccessMonitoringApp {
 
             this.renderRegisteredUsers(users);
         } catch (error) {
-            console.error('加载注册用户失败:', error);
+            console.error('加载注册用户失败 (Failed to load registered users):', error);
         }
     }
 
@@ -93,8 +93,8 @@ class AccessMonitoringApp {
             this.renderAccessHistory(data);
             this.loadSystemInfo(); // 同时更新系统信息
         } catch (error) {
-            console.error('加载访问历史失败:', error);
-            this.showMessage('加载访问历史失败', 'error');
+            console.error('加载访问历史失败 (Failed to load access history):', error);
+            this.showMessage('加载访问历史失败 (Failed to load access history)', 'error');
         }
     }
 
@@ -120,7 +120,7 @@ class AccessMonitoringApp {
                     <td>${formattedLogoutTime}</td>
                     <td>
                         <button class="delete-btn" onclick="app.showDeleteModal('${this.escapeHtml(session.userId)}')">
-                            删除用户
+                            删除用户 (Delete User)
                         </button>
                     </td>
                 </tr>
@@ -140,29 +140,29 @@ class AccessMonitoringApp {
         const department = departmentInput.value.trim();
 
         if (!userId) {
-            this.showMessage('请输入用户ID', 'error');
+            this.showMessage('请输入用户ID (Please enter User ID)', 'error');
             return;
         }
 
         if (!name) {
-            this.showMessage('请输入用户姓名', 'error');
+            this.showMessage('请输入用户姓名 (Please enter User Name)', 'error');
             return;
         }
 
         if (!email) {
-            this.showMessage('请输入邮箱地址', 'error');
+            this.showMessage('请输入邮箱地址 (Please enter Email Address)', 'error');
             return;
         }
 
         if (!department) {
-            this.showMessage('请输入所属部门', 'error');
+            this.showMessage('请输入所属部门 (Please enter Department)', 'error');
             return;
         }
 
         // Email validation on frontend
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            this.showMessage('邮箱格式不正确', 'error');
+            this.showMessage('邮箱格式不正确 (Invalid email format)', 'error');
             return;
         }
 
@@ -196,8 +196,8 @@ class AccessMonitoringApp {
                 this.showMessage(data.message, 'error');
             }
         } catch (error) {
-            console.error('添加用户失败:', error);
-            this.showMessage('添加用户失败，请重试', 'error');
+            console.error('添加用户失败 (Failed to add user):', error);
+            this.showMessage('添加用户失败，请重试 (Failed to add user, please try again)', 'error');
         }
     }
 
@@ -227,8 +227,8 @@ class AccessMonitoringApp {
                 this.showMessage(data.message, 'error');
             }
         } catch (error) {
-            console.error('删除用户失败:', error);
-            this.showMessage('删除用户失败，请重试', 'error');
+            console.error('删除用户失败 (Failed to delete user):', error);
+            this.showMessage('删除用户失败，请重试 (Failed to delete user, please try again)', 'error');
         }
     }
 

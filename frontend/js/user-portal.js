@@ -38,7 +38,7 @@ class UserPortalApp {
         const username = usernameInput.value.trim();
 
         if (!username) {
-            this.showMessage('请输入用户名', 'error', 'login');
+            this.showMessage('请输入用户名 (Please enter username)', 'error', 'login');
             return;
         }
 
@@ -58,26 +58,26 @@ class UserPortalApp {
                 this.currentUser = username;
                 this.isOnline = true; // 登录成功后自动设为在线状态
                 this.updateUI();
-                this.showMessage('登录成功！现在可以访问系统了。', 'success', 'login');
+                this.showMessage('登录成功！现在可以访问系统了。 (Login successful! You can now access the system.)', 'success', 'login');
                 usernameInput.value = '';
                 this.loadUserHistory();
             } else {
-                this.showMessage('登录失败：' + data.message, 'error', 'login');
+                this.showMessage('登录失败：' + data.message + ' (Login failed: ' + data.message + ')', 'error', 'login');
             }
         } catch (error) {
-            console.error('登录失败:', error);
-            this.showMessage('登录失败，请重试', 'error', 'login');
+            console.error('登录失败 (Login failed):', error);
+            this.showMessage('登录失败，请重试 (Login failed, please try again)', 'error', 'login');
         }
     }
 
     async accessSystem() {
         if (!this.currentUser) {
-            this.showMessage('请先登录', 'error', 'access');
+            this.showMessage('请先登录 (Please login first)', 'error', 'access');
             return;
         }
 
         if (this.isOnline) {
-            this.showMessage('您已经在线了', 'info', 'access');
+            this.showMessage('您已经在线了 (You are already online)', 'info', 'access');
             return;
         }
 
@@ -95,20 +95,20 @@ class UserPortalApp {
             if (data.success) {
                 this.isOnline = true;
                 this.updateUI();
-                this.showMessage('成功访问系统！', 'success', 'access');
+                this.showMessage('成功访问系统！ (Successfully accessed the system!)', 'success', 'access');
                 this.loadUserHistory();
             } else {
-                this.showMessage('访问失败：' + data.message, 'error', 'access');
+                this.showMessage('访问失败：' + data.message + ' (Access failed: ' + data.message + ')', 'error', 'access');
             }
         } catch (error) {
-            console.error('访问系统失败:', error);
-            this.showMessage('访问失败，请重试', 'error', 'access');
+            console.error('访问系统失败 (Failed to access system):', error);
+            this.showMessage('访问失败，请重试 (Access failed, please try again)', 'error', 'access');
         }
     }
 
     async leaveSystem() {
         if (!this.currentUser) {
-            this.showMessage('请先登录', 'error', 'access');
+            this.showMessage('请先登录 (Please login first)', 'error', 'access');
             return;
         }
 
@@ -126,14 +126,14 @@ class UserPortalApp {
             if (data.success) {
                 this.isOnline = false;
                 this.updateUI();
-                this.showMessage('已离开系统', 'info', 'access');
+                this.showMessage('已离开系统 (Left the system)', 'info', 'access');
                 this.loadUserHistory();
             } else {
-                this.showMessage('离开失败：' + data.message, 'error', 'access');
+                this.showMessage('离开失败：' + data.message + ' (Leave failed: ' + data.message + ')', 'error', 'access');
             }
         } catch (error) {
-            console.error('离开系统失败:', error);
-            this.showMessage('离开失败，请重试', 'error', 'access');
+            console.error('离开系统失败 (Failed to leave system):', error);
+            this.showMessage('离开失败，请重试 (Leave failed, please try again)', 'error', 'access');
         }
     }
 
@@ -146,7 +146,7 @@ class UserPortalApp {
 
             this.renderUserHistory(userSessions);
         } catch (error) {
-            console.error('加载用户历史失败:', error);
+            console.error('加载用户历史失败 (Failed to load user history):', error);
         }
     }
 
@@ -154,7 +154,7 @@ class UserPortalApp {
         const tbody = document.getElementById('user-history-body');
 
         if (sessions.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="3" class="no-data">暂无访问记录</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="3" class="no-data">暂无访问记录 (No access records)</td></tr>';
             return;
         }
 
@@ -183,14 +183,14 @@ class UserPortalApp {
 
         if (this.currentUser) {
             currentUserSpan.textContent = this.currentUser;
-            onlineStatusSpan.textContent = this.isOnline ? '在线' : '离线';
+            onlineStatusSpan.textContent = this.isOnline ? '在线 (Online)' : '离线 (Offline)';
             onlineStatusSpan.className = this.isOnline ? 'status-online' : 'status-offline';
 
             accessBtn.disabled = this.isOnline;
             leaveBtn.disabled = !this.isOnline;
         } else {
-            currentUserSpan.textContent = '未登录';
-            onlineStatusSpan.textContent = '离线';
+            currentUserSpan.textContent = '未登录 (Not logged in)';
+            onlineStatusSpan.textContent = '离线 (Offline)';
             onlineStatusSpan.className = 'status-offline';
 
             accessBtn.disabled = true;
